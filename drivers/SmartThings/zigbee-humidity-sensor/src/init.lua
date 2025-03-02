@@ -11,9 +11,6 @@
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
-local zcl_clusters = require "st.zigbee.zcl.clusters"
-local zcl_messages = require "st.zigbee.zcl"
-local data_types = require "st.zigbee.data_types"
 
 local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
