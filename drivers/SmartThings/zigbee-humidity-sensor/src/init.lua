@@ -11,6 +11,9 @@
 -- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 -- See the License for the specific language governing permissions and
 -- limitations under the License.
+local zcl_clusters = require "st.zigbee.zcl.clusters"
+local zcl_messages = require "st.zigbee.zcl"
+local data_types = require "st.zigbee.data_types"
 
 local capabilities = require "st.capabilities"
 local ZigbeeDriver = require "st.zigbee"
@@ -23,9 +26,15 @@ local temperature_measurement_defaults = {
   MAX_TEMP = "MAX_TEMP"
 }
 
+-- ThirdReality always send -32768
+-- Handle uninitialized value (-32768) by just returning to avoid error thrown
 local temperature_measurement_min_max_attr_handler = function(minOrMax)
   return function(driver, device, value, zb_rx)
     local raw_temp = value.value
+        if raw_temp == -32768 then
+          device.log.warn("No temperature available to use for minOrMax.")
+        return
+        end
     local celc_temp = raw_temp / 100.0
     local temp_scale = "C"
 
@@ -85,7 +94,8 @@ local zigbee_humidity_driver = {
     require("plaid-systems"),
     require("centralite-sensor"),
     require("heiman-sensor"),
-    require("frient-sensor")
+    require("frient-sensor"),
+    require("thirdreality-sensor")
   }
 }
 

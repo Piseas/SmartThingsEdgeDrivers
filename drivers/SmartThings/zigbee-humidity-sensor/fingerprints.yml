@@ -1,4 +1,9 @@
 zigbeeManufacturer:
+  - id: "Third Reality/3RTHS0224Z"
+    deviceLabel: Third Reality Temperature Humidity Sensor
+    manufacturer: Third Reality
+    model: 3RTHS0224Z
+    deviceProfileName: humidity-temp-battery-dewpoint
   - id: "LUMI/lumi.sensor_ht.agl02"
     deviceLabel: Aqara Temperature and Humidity Sensor T1
     manufacturer: LUMI

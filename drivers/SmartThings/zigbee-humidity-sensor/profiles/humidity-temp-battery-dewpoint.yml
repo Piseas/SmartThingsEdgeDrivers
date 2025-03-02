@@ -1,0 +1,88 @@
+name: humidity-temp-battery-dewpoint
+components:
+- id: main
+  capabilities:
+  - id: temperatureMeasurement
+    version: 1
+  - id: relativeHumidityMeasurement
+    version: 1
+  - id: battery
+    version: 1
+  - id: firmwareUpdate
+    version: 1
+  - id: refresh
+    version: 1
+  - id: switch
+    version: 1
+  - id: dewPoint
+    version: 1
+  categories:
+  - name: TempHumiditySensor
+preferences:
+  - preferenceId: tempOffset
+    explicit: true
+  - preferenceId: humidityOffset
+    explicit: true
+  - name: rhThreshold
+    title: "Humidity Threshold"
+    description: "Don't recalculate dewpoint until humidity changes more then the threshold.
+                  The objective is to hold dewpoint long enough so a drop in temperature intercepting
+                  dewpoint will properly alert a condensation event with switch(on)"
+    required: true
+    preferenceType: number
+    definition:
+      type: float
+      minimum: 0.0
+      maximum: 100.0
+      default: 20.0
+deviceConfig:
+  dashboard:
+    states:
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+        group: main
+        composite: true
+      - component: main
+        capability: relativeHumidityMeasurement
+        version: 1
+        group: main
+        values:
+          - label: "  {{humidity.value}} {{humidity.unit}}"
+        composite: true
+    actions: []
+    basicPlus: []
+  detailView:
+    - component: main
+      capability: temperatureMeasurement
+      version: 1
+    - component: main
+      capability: relativeHumidityMeasurement
+      version: 1
+    - component: main
+      capability: dewPoint
+      version: 1
+    - component: main
+      capability: battery
+      version: 1
+    - component: main
+      capability: refresh
+      version: 1
+  automation:
+    conditions:
+      - component: main
+        capability: temperatureMeasurement
+        version: 1
+      - component: main
+        capability: relativeHumidityMeasurement
+        version: 1
+      - component: main
+        capability: switch
+        version: 1
+      - component: main
+        capability: dewPoint
+        version: 1
+      - component: main
+        capability: battery
+        version: 1
+    actions: []

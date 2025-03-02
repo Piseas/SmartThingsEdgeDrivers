@@ -20,6 +20,29 @@ local RelativeHumidity = clusters.RelativeHumidity
 local PowerConfiguration = clusters.PowerConfiguration
 
 local devices = {
+  THIRDREALITY_HUMIDITY_TEMP_SENSOR = {
+    FINGERPRINTS = {
+      { mfr = "Third Reality", model = "3RTHS0224Z" }
+    },
+    CONFIGURATION = {
+      {
+        cluster = RelativeHumidity.ID,
+        attribute = RelativeHumidity.attributes.MeasuredValue.ID,
+        minimum_interval = 120,
+        maximum_interval = 7200,
+        data_type = RelativeHumidity.attributes.MeasuredValue.base_type,
+        reportable_change = 200
+      },
+      {
+        cluster = TemperatureMeasurement.ID,
+        attribute = TemperatureMeasurement.attributes.MeasuredValue.ID,
+        minimum_interval = 120,
+        maximum_interval = 7200,
+        data_type = TemperatureMeasurement.attributes.MeasuredValue.base_type,
+        reportable_change = 50
+      }
+    }
+  },
   FRIENT_HUMIDITY_TEMP_SENSOR = {
     FINGERPRINTS = {
       { mfr = "frient A/S", model = "HMSZB-110" }
