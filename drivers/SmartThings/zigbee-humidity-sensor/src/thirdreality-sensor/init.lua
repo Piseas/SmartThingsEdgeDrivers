@@ -14,16 +14,16 @@
 -- Thirdreality Humidity Senso
 -- Author: Keith Collins
 -- Original date: March 1, 2025
--- The primary modivation for this subdriver is to implement condensation event automation. The driver adds
+-- The primary motivation for this subdriver is to implement condensation event automation. The driver adds
 -- virtual dewPoint to track when Temperature intersects Dewpoint and turning on a virtual switch to
 -- enable automation. Dewpoint is constantly updated as Temperature and Dewpoint rises.
 -- 
 -- The challenge is how frequently to update Dewpoint when temperature is falling. If you recalculate
--- to frequetly then Temperature will never intersect Dewpoint. Hence the RHoffset preference to 
+-- to frequently then Temperature will never intersect Dewpoint. Hence the RHoffset preference to 
 -- set how much Relative Humidity must fall before recalculating Dewpoint again.
 --
 -- The goal was to use a single sensor attached to hvac ducts in humid coastal conditions to warn if
--- there is likely condensation occuring on the duct work. 
+-- there is likely condensation occurring on the duct work. 
 -- 
 -- If others are interested please feel free to improve on the methodology. If there is sufficient
 -- interest it would be nice to move this into the default handler.
@@ -34,8 +34,7 @@
 -- This subdriver adds support for Thirdreality 3RTHS0224Z. The device reports that it supports battery
 -- Need the manufacture to specify if this is indeed supported and if so what are the proper defaults for
 -- the init handler and default for configuration reporting. 
--- This device also responds with success for temp min/max but always returns -
-
+-- This device also responds with success for temp min/max but always returns -32768
 local capabilities = require "st.capabilities"
 local zcl_clusters = require "st.zigbee.zcl.clusters"
 local utils = require "st.utils"
