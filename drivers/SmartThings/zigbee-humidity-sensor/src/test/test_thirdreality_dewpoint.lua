@@ -119,7 +119,7 @@ test.register_coroutine_test(
     })
     test.socket.zigbee:__expect_send({
       mock_device.id,
-      RelativeHumidity.attributes.MeasuredValue:configure_reporting(mock_device, 120, 7200, 200)
+      RelativeHumidity.attributes.MeasuredValue:configure_reporting(mock_device, 120, 3600, 200)
     })
     test.socket.zigbee:__expect_send({
       mock_device.id,
@@ -127,7 +127,7 @@ test.register_coroutine_test(
     })
     test.socket.zigbee:__expect_send({
       mock_device.id,
-      TemperatureMeasurement.attributes.MeasuredValue:configure_reporting(mock_device, 120, 7200, 50)
+      TemperatureMeasurement.attributes.MeasuredValue:configure_reporting(mock_device, 30, 3600, 50)
     })
 
     test.socket.zigbee:__expect_send({ mock_device.id, RelativeHumidity.attributes.MeasuredValue:read(mock_device) })

@@ -36,8 +36,6 @@
 -- the init handler and default for configuration reporting. 
 -- This device also responds with success for temp min/max but always returns -32768
 local capabilities = require "st.capabilities"
-local zcl_clusters = require "st.zigbee.zcl.clusters"
-local zigbee_utils = require "st.utils"
 local battery_defaults = require "st.zigbee.defaults.battery_defaults"
 local TemperatureMeasurement = (require "st.zigbee.zcl.clusters").TemperatureMeasurement
 local RelativeHumidityMeasurement = (require "st.zigbee.zcl.clusters").RelativeHumidity
@@ -162,14 +160,13 @@ end
 
 local function info_changed(driver, device, event, args)
   -- should? add code to check last state of temp and humidity offsets and force reads to recalculate dewpoint
-    local old_threshold = args.old_st_store.preferences.rhThreshold or 10
-    local new_threshold = device.preferences.rhThreshold or 10
-    -- Retrieve updated tempMinInterval from preferences
-    local new_min_interval = device.preferences.tempMinInterval or 30  -- Default 30 sec
-    -- Get the last tempMinInterval value
-    local current_min_interval = args.old_st_store.tempMinInterval or 30
-
-    -- act if rhThreshold has changed
+    local old_threshold = args.old_st_store.preferences.rhThreshold
+    local new_threshold = device.preferences.rhThreshold
+  
+    -- handle first call to info_change at device setup
+    if old_threshold == nil or new_threshold == nil
+     then return end
+    -- Only act if rhThreshold has changed
     if old_threshold ~= new_threshold then
       device.log.debug(string.format(
         "RH Threshold changed from %d to %d, requesting new sensor values",
@@ -178,30 +175,7 @@ local function info_changed(driver, device, event, args)
       -- Trigger a read to refresh humidity and temperature and resulting dewpoint.
       device:send(TemperatureMeasurement.attributes.MeasuredValue:read(device))
       device:send(RelativeHumidityMeasurement.attributes.MeasuredValue:read(device))
-   
-  -- If the min interval has changed, update reporting for temperature only
-    elseif  new_min_interval ~= current_min_interval then
-    -- Loop through CONFIGURATION to find the Temperature attribute
-    local configuration = configurationMap.get_device_configuration(device)
-    if configuration ~= nil then
-      for index, config in ipairs(configuration) do
-        if config.cluster == TemperatureMeasurement.ID then
-            local max_interval = config.maximum_interval or 600
-            local reportable_change = config.reportable_change or 100
-                -- Send updated configure_reporting() command **only for temperature**
-            device:send(TemperatureMeasurement.attributes.MeasuredValue:configure_reporting(
-              device,
-              new_min_interval,  -- Min interval from preferences
-              max_interval,      -- Retrieved from CONFIGURATION
-              reportable_change  -- Retrieved from CONFIGURATION
-            ))
-            -- Exit loop after finding the temperature attribute
-            break
-        end
-      end
     end
-end
-
   device.log.debug("Info_changed TR done:")
 end
 

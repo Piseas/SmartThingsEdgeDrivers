@@ -34,7 +34,17 @@ preferences:
       type: float
       minimum: 0.0
       maximum: 100.0
-      default: 20.0
+      default: 10.0
+  - name: tempMinInterval
+    title: "Temp minimum reporting" 
+    description: "Temp min reporting in seconds"
+    required: true
+    preferenceType: number
+    definition:
+      type: integer
+      minimum: 0
+      maximum: 7200
+      default: 60
 deviceConfig:
   dashboard:
     states:

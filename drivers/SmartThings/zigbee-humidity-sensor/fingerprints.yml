@@ -1,6 +1,6 @@
 zigbeeManufacturer:
   - id: "Third Reality/3RTHS0224Z"
-    deviceLabel: Third Reality Temperature Humidity Sensor
+    deviceLabel: ThirdReality Humidity Sensor
     manufacturer: Third Reality
     model: 3RTHS0224Z
     deviceProfileName: humidity-temp-battery-dewpoint

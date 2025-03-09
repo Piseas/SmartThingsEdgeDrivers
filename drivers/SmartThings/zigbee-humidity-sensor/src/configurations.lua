@@ -29,15 +29,15 @@ local devices = {
         cluster = RelativeHumidity.ID,
         attribute = RelativeHumidity.attributes.MeasuredValue.ID,
         minimum_interval = 120,
-        maximum_interval = 7200,
+        maximum_interval = 3600,
         data_type = RelativeHumidity.attributes.MeasuredValue.base_type,
         reportable_change = 200
       },
       {
         cluster = TemperatureMeasurement.ID,
         attribute = TemperatureMeasurement.attributes.MeasuredValue.ID,
-        minimum_interval = 120,
-        maximum_interval = 7200,
+        minimum_interval = 30,
+        maximum_interval = 3600,
         data_type = TemperatureMeasurement.attributes.MeasuredValue.base_type,
         reportable_change = 50
       }
